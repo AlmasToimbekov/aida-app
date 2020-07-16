@@ -6,7 +6,7 @@
       v-spacer
       v-btn(icon='')
         v-icon mdi-magnify
-      v-btn(icon='')
+      v-btn(icon='' @click="getCities")
         v-icon mdi-heart
       v-btn(icon='')
         v-icon mdi-dots-vertical
@@ -14,7 +14,7 @@
 
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Toolbar',
@@ -26,9 +26,9 @@ export default {
   },
 
   methods: {
-    // ...mapActions({
-    //   toggleDrawer: 'tools/toggleDrawer',
-    // }),
+    ...mapActions({
+      getCities: 'globe/getCities',
+    }),
 
     home() {
       this.$router.push('/')

@@ -1,15 +1,18 @@
 <template lang="pug">
   div(id="app")
-    toolbar
+    layouts-default
+      toolbar
 </template>
 
 <script>
 import Toolbar from './components/Toolbar'
+import LayoutDefault from './layouts/LayoutDefault'
 
 export default {
   name: 'App',
   components: {
-    toolbar: Toolbar
+    toolbar: Toolbar,
+    LayoutDefault
   }
 }
 </script>

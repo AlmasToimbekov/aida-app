@@ -1,12 +1,12 @@
 import axios from 'axios'
 
 const $baseHTTP = axios.create({
-  baseURL: `${process.env.BACKEND_URL}`,
+  baseURL: `${process.env.BACKEND_URL || 'http://localhost:3000/api'}` ,
 })
 
 const globeApi = {
-  getCities(payload) {
-    return $baseHTTP.get('/cities', payload)
+  getCities() {
+    return $baseHTTP.get('/globe/getCities')
   },
 }
 
