@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-app#inspire
+  div
     v-navigation-drawer(v-model='drawer', app right)
       v-list
         v-list-item
@@ -39,18 +39,27 @@
             v-icon mdi-minus
           v-list-item-content
             v-list-item-title Поделиться приложением
-    v-app-bar(app='', color='indigo', dark='')
+    v-app-bar(app='', color='orange darken-2', dark='')
+      v-btn(icon='')
+        v-icon mdi-dots-vertical
+      v-toolbar-title AIDA
+      v-spacer
+      v-btn(icon='')
+        v-icon mdi-magnify
+      v-btn(icon='' @click="getCities")
+        v-icon mdi-heart
       v-app-bar-nav-icon(@click.stop='drawer = !drawer')
-      v-toolbar-title Home
     v-content
       v-container
-        slot
-    v-footer(color='indigo', app='')
-      span.white--text © 2020
+        router-view
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
+  components: {
+  },
   props: {
     source: String,
   },
@@ -58,5 +67,21 @@ export default {
   data: () => ({
     drawer: false,
   }),
+
+  computed: {
+    ...mapGetters({
+      brand: 'globe/cities',
+    }),
+  },
+
+  methods: {
+    ...mapActions({
+      getCities: 'globe/getCities',
+    }),
+
+    home() {
+      this.$router.push('/')
+    },
+  },
 }
 </script>
