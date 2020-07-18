@@ -1,11 +1,11 @@
-import api from '../../api/globe'
+import api from '../../api/equipment'
 
 const state = {
-  cities: [],
+  equipment: [],
 }
 
 const getters = {
-  cities: (state) => state.cities,
+  equipment: (state) => state.equipment,
 }
 
 const mutations = {
@@ -18,10 +18,10 @@ const mutations = {
 }
 
 const actions = {
-  async getCities({ commit }) {
-    const cities = await api.getCities()
-    commit('set', { type: 'cities', value: cities.data })
-    return cities
+  async getEquipment({ commit }) {
+    const equipment = await api.getEquipment()
+    commit('set', { type: 'equipment', value: equipment.data })
+    return equipment
   }
 }
 

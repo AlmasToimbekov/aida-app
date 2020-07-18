@@ -1,87 +1,111 @@
 <template lang="pug">
-  div
-    v-navigation-drawer(v-model='drawer', app right)
-      v-list
-        v-list-item
-          v-list-item-content
-            v-list-item-title.title
-              | О приложении
-        v-list-item(link='', to='/tech-cards')
-          v-list-item-action
-            v-icon mdi-hammer-wrench
-          v-list-item-content
-            v-list-item-title Вход в личный кабинет
-        v-list-item
-          v-list-item-content
-            v-list-item-title.title
-              | Зарегистрироваться
-        v-list-item(link='', to='/tech-cards')
-          v-list-item-action
-            v-icon mdi-view-list
-          v-list-item-content
-            v-list-item-title Настройки
-        v-list-item
-          v-list-item-content
-            v-list-item-subtitle
-              | Уведомления
-        v-list-item(link='', to='/resources')
-          v-list-item-action
-            v-icon mdi-minus
-          v-list-item-content
-            v-list-item-title По вопросам сотрудничества
-        v-list-item(link='', to='/categories')
-          v-list-item-action
-            v-icon mdi-minus
-          v-list-item-content
-            v-list-item-title Служба поддержки
-        v-list-item(link='', to='/measures')
-          v-list-item-action
-            v-icon mdi-minus
-          v-list-item-content
-            v-list-item-title Поделиться приложением
-    v-app-bar(app='', color='orange darken-2', dark='')
-      v-btn(icon='')
-        v-icon mdi-dots-vertical
-      v-toolbar-title AIDA
-      v-spacer
-      v-btn(icon='')
-        v-icon mdi-magnify
-      v-btn(icon='' @click="getCities")
-        v-icon mdi-heart
-      v-app-bar-nav-icon(@click.stop='drawer = !drawer')
-    v-content
-      v-container
-        router-view
+v-container
+  v-navigation-drawer(v-model='drawer' app right)
+    v-list(dense)
+      v-list-item(link, to='/about')
+        v-list-item-action
+          v-icon import_contacts
+        v-list-item-content
+          v-list-item-title
+            | О приложении
+
+      v-list-item(link, to='/cabinet')
+        v-list-item-action
+          v-icon weekend
+        v-list-item-content
+          v-list-item-title Вход в личный кабинет
+
+      v-list-item(link, to='/signup')
+        v-list-item-action
+          v-icon how_to_reg
+        v-list-item-content
+          v-list-item-title
+            | Зарегистрироваться
+
+      v-list-item(link, to='/settings')
+        v-list-item-action
+          v-icon settings
+        v-list-item-content
+          v-list-item-title
+            | Настройки
+
+      v-list-item(link, to='/notifications')
+        v-list-item-action
+          v-icon notification_important
+        v-list-item-content
+          v-list-item-title
+            | Уведомления
+
+      v-list-item(link, to='/partnership')
+        v-list-item-action
+          v-icon people_outline
+        v-list-item-content
+          v-list-item-title
+            | Сотрудничество
+
+      v-list-item(link, to='/support')
+        v-list-item-action
+          v-icon support
+        v-list-item-content
+          v-list-item-title
+            | Служба поддержки
+
+      v-list-item(link, to='/share')
+        v-list-item-action
+          v-icon share
+        v-list-item-content
+          v-list-item-title
+            | Поделиться приложением
+  v-app-bar(app color='orange darken-2' dark)
+    v-overflow-btn.mt-5(
+      style="min-width:170px"
+      label="Город"
+      no-data-text="Перезагрузите страницу"
+      v-model="selectedCity"
+      :items="cities"
+      background-color="orange darken-2"
+      hide-selected
+      flat)
+      v-icon mdi-dots-vertical
+    v-spacer
+    v-toolbar-title AIDA
+    v-spacer
+    v-spacer
+    v-btn(icon)
+      v-icon mdi-magnify
+    v-btn.btn-center(icon to="/home")
+      v-icon home
+    v-app-bar-nav-icon(@click.stop='drawer = !drawer')
+  v-main
+    v-container
+      router-view
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from "vuex"
 
 export default {
-  components: {
-  },
+  components: {},
   props: {
-    source: String,
+    source: String
   },
 
   data: () => ({
     drawer: false,
+
+    selectedCity: null,
   }),
 
   computed: {
     ...mapGetters({
-      brand: 'globe/cities',
-    }),
+      cities: "globe/cities"
+    })
   },
 
   methods: {
-    ...mapActions({
-      getCities: 'globe/getCities',
-    }),
-
     home() {
-      this.$router.push('/')
-    },
-  },
-}
+      this.$router.push("/");
+    }
+  }
+};
 </script>

@@ -1,7 +1,7 @@
 <template lang="pug">
-  div(id="app")
-    v-app
-      router-view
+div(id="app")
+  v-app
+    router-view
 </template>
 
 <script>

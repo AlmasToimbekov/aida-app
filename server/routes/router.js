@@ -5,4 +5,5 @@ module.exports = app => {
   });
 
   app.use('/api/globe', require('./globe-routes'));
+  app.use('/api/equipment', require('./equipment-routes'));
 };

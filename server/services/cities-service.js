@@ -1,5 +1,5 @@
 const citiesRemote = Promise.resolve({
-  data: ['Astana', 'Almaty']
+  data: ['Астана', 'Алматы', 'Шымкент', 'Костанай', 'Павлодар', 'Актау', 'Усть-Каменогорск']
 })
 
 const api = {
