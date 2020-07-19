@@ -1,5 +1,5 @@
 <template lang="pug">
-v-layout(row)
+v-row
   v-carousel(xs-12 height="200" cycle progress)
     v-carousel-item(
       v-for="(item, i) in items"

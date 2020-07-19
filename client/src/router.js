@@ -5,18 +5,21 @@ import store from './store'
 import LayoutDefault from './layouts/LayoutDefault'
 import Home from './views/Home'
 import Equipment from './views/Equipment'
+import Ymap from './views/Ymap'
 
 Vue.use(VueRouter)
 
 export default new VueRouter({
   routes: [
     {
-      path: '/home',
+      path: '/',
+      alias: '/home',
       name: 'home',
       component: LayoutDefault,
       children: [
         {
-          path: '/home',
+          path: '/',
+          alias: 'home',
           name: 'home',
           component: Home,
           beforeEnter: (to, from, next) => {
@@ -46,6 +49,11 @@ export default new VueRouter({
               }
             })()
           }
+        },
+        {
+          path: '/map',
+          name: 'map',
+          component: Ymap,
         },
       ]
     },

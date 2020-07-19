@@ -1,5 +1,5 @@
 <template lang="pug">
-v-flex(xs12 md6)
+v-col(xs="12" md="6")
   v-card.ma-2(ripple elevation="1" :to="to" :href="href" :target="target")
     v-card-title.justify-center.pb-0(v-if="icon")
       v-avatar(:color="iconColor")
