@@ -29,7 +29,6 @@ export default new VueRouter({
                 next()
               } catch (error) {
                 console.error(error)
-                next('/home')
               }
             })()
           }
