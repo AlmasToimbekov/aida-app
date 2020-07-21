@@ -1,14 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
+// const cors = require("cors");
 
 const app = express();
 
-var corsOptions = {
-    origin: "http://localhost:8080"
-};
+// var corsOptions = {
+//     origin: "http://localhost:3000"
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -24,7 +24,6 @@ if (process.env.NODE_ENV === 'production') {
     app.get('/*', (req, res) => {
         res.sendFile(path.resolve(__dirname, '../client', 'dist', 'index.html'))
     })
-
 }
 
 // set port, listen for requests

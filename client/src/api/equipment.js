@@ -1,8 +1,4 @@
-import axios from 'axios'
-
-const $baseHTTP = axios.create({
-  baseURL: `${process.env.BACKEND_URL || 'http://localhost:3000/api'}` ,
-})
+import $baseHTTP from './http-common'
 
 const equipmentApi = {
   getEquipment() {

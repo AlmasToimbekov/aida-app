@@ -4,12 +4,12 @@ services:
   aida:
     image: aida:prod
     environment:
-      PG_HOST: ec2-35-175-155-248.compute-1.amazonaws.com
+      PG_HOST: ec2-54-247-125-38.eu-west-1.compute.amazonaws.com
       PG_PORT: 5432
-      PG_USER: fsktrgdkktmcbt
-      PG_PASSWORD: e7929351d7a362df38f1c6b1ff7139b79e0e781f9340c38e15709c490807e7ba
-      PG_DB: dcrivnlgr817pn
-      DATABASE_URL: postgres://fsktrgdkktmcbt:e7929351d7a362df38f1c6b1ff7139b79e0e781f9340c38e15709c490807e7ba@ec2-35-175-155-248.compute-1.amazonaws.com:5432/dcrivnlgr817pn
+      PG_USER: dgwxoyycemhser
+      PG_PASSWORD: 5b5e033466da50e55fc75e8b3b0badb2a103bcb85906f856c28b69bde1f0a8c2
+      PG_DB: d4jvcfg26vd6d
+      DATABASE_URL: postgres://dgwxoyycemhser:5b5e033466da50e55fc75e8b3b0badb2a103bcb85906f856c28b69bde1f0a8c2@ec2-54-247-125-38.eu-west-1.compute.amazonaws.com:5432/d4jvcfg26vd6d
     build: 
       context: .
     container_name: aida
@@ -17,7 +17,7 @@ services:
     volumes: 
       - .:/app
     ports:
-      - "3000:3000"
+      - "80:3000"
     depends_on:
       - postgres
     networks: 
