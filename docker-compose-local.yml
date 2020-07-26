@@ -1,0 +1,74 @@
+version: '2.2'
+
+services:
+  aida:
+    image: aida:dev
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.dev
+    container_name: aida
+    restart: always
+    volumes: 
+      - .:/app
+    ports:
+      - "3000:3000"
+      - "80:8080"
+    depends_on:
+      - postgres
+    networks: 
+      - aida-network
+  postgres:
+    container_name: aida-pg
+    image: postgres:12
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - ./volumes/postgres/data:/var/lib/postgresql/data
+    ports:
+      - "55432:5432"
+    networks:
+      - aida-network
+    restart: unless-stopped
+
+  keycloak:
+    container_name: aida-keycloak
+    image: jboss/keycloak
+    restart: always
+    depends_on:
+      - postgres
+    ports: 
+      - "8081:8080"
+    depends_on:
+      - keycloak-pg
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: keycloak-pg
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: Pa55w0rd
+    networks:
+      - aida-network
+        # aliases:
+        #   - aida.auth
+  keycloak-pg:
+    container_name: aida-keycloak-pg
+    image: 'postgres:12'
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    ports:
+      - "55433:5432"
+    volumes:
+      - ./volumes/auth-db/data:/var/lib/postgresql/data
+    networks:
+      - aida-network
+
+networks:
+  aida-network:
+    driver: bridge

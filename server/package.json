@@ -6,7 +6,8 @@
   "scripts": {
     "server": "nodemon index.js",
     "test": "test",
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "npm run server & npm run serve --prefix '../client'"
   },
   "author": "Almas Toimbekov",
   "license": "ISC",
