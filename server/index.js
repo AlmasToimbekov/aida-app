@@ -1,17 +1,25 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-// const cors = require("cors");
+const session = require('express-session');
+const keycloak = require('./config/keycloak-config.js').initKeycloak();
+
+const cors = require("cors");
 
 const app = express();
 
-// var corsOptions = {
-//     origin: "http://localhost:3000"
-// };
-
-// app.use(cors(corsOptions));
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
+var memoryStore = new session.MemoryStore();
+app.use(session({
+    secret: 'd1ea3f9e-8239-4344-b5b5-9867cd08675a',
+    resave: false,
+    saveUninitialized: true,
+    store: memoryStore
+}));
+
+app.use(keycloak.middleware());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));

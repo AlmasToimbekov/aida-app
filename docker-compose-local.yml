@@ -35,11 +35,9 @@ services:
   keycloak:
     container_name: aida-keycloak
     image: jboss/keycloak
-    restart: always
-    depends_on:
-      - postgres
+    restart: unless-stopped
     ports: 
-      - "8081:8080"
+      - "8080:8080"
     depends_on:
       - keycloak-pg
     environment:
@@ -49,8 +47,8 @@ services:
       DB_USER: keycloak
       DB_SCHEMA: public
       DB_PASSWORD: password
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: Pa55w0rd
+      # KEYCLOAK_USER: admin
+      # KEYCLOAK_PASSWORD: Pa55w0rd
     networks:
       - aida-network
         # aliases:
