@@ -63,6 +63,8 @@ v-container
       no-data-text="Перезагрузите страницу"
       v-model="selectedCity"
       :items="cities"
+      item-text="name"
+      item-value="code"
       background-color="orange darken-2"
       hide-selected
       flat)

@@ -1,6 +1,6 @@
 module.exports = {
   "devServer": {
-    proxy: `http://localhost:${process.env.PORT || 3000}`
+    proxy: `http://localhost:${process.env.SERVER_PORT}`
   },
   "transpileDependencies": [
     "vuetify"

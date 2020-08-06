@@ -1,10 +1,8 @@
-const citiesRemote = Promise.resolve({
-  data: ['Астана', 'Алматы', 'Шымкент', 'Костанай', 'Павлодар', 'Актау', 'Усть-Каменогорск']
-})
+const service = require('../db/cities-queries')
 
 const api = {
   getCities() {
-    return citiesRemote.then(result => result.data)
+    return service.getAllCities()
   },
 }
 

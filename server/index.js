@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const session = require('express-session');
 const keycloak = require('./config/keycloak-config.js').initKeycloak();
+const dotenv = require('dotenv');
+dotenv.config();
 
 const cors = require("cors");
 
@@ -35,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // set port, listen for requests
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.SERVER_PORT;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });

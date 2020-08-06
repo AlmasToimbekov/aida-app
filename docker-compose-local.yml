@@ -3,11 +3,14 @@ version: '2.2'
 services:
   aida:
     image: aida:dev
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: ${POSTGRES_PORT}
     build: 
       context: .
       dockerfile: ./Dockerfile.dev
     container_name: aida
-    restart: always
+    restart: unless-stopped
     volumes: 
       - .:/app
     ports:
@@ -41,14 +44,14 @@ services:
     depends_on:
       - keycloak-pg
     environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: keycloak-pg
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_SCHEMA: public
-      DB_PASSWORD: password
-      # KEYCLOAK_USER: admin
-      # KEYCLOAK_PASSWORD: Pa55w0rd
+      DB_VENDOR: ${DB_VENDOR}
+      DB_ADDR: ${DB_ADDR}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_SCHEMA: ${DB_SCHEMA}
+      DB_PASSWORD: ${DB_PASSWORD}
+      # KEYCLOAK_USER: ${KEYCLOAK_USER}
+      # KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
     networks:
       - aida-network
         # aliases:
@@ -57,10 +60,43 @@ services:
     container_name: aida-keycloak-pg
     image: 'postgres:12'
     environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: password
+      KEYCLOAK_DB: ${KEYCLOAK_DB}
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+    ports:k:
+    container_name: aida-keycloak
+    image: jboss/keycloak
+    restart: unless-stopped
+    ports: 
+      - "8080:8080"
+    depends_on:
+      - keycloak-pg
+    environment:
+      DB_VENDOR: ${DB_VENDOR}
+      DB_ADDR: ${DB_ADDR}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_SCHEMA: ${DB_SCHEMA}
+      DB_PASSWORD: ${DB_PASSWORD}
+      # KEYCLOAK_USER: ${KEYCLOAK_USER}
+      # KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+    networks:
+      - aida-network
+        # aliases:
+        #   - aida.auth
+  keycloak-pg:
+    container_name: aida-keycloak-pg
+    image: 'postgres:12'
+    environment:
+      KEYCLOAK_DB: ${KEYCLOAK_DB}
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
     ports:
+      - "55433:5432"
+    volumes:
+      - ./volumes/auth-db/data:/var/lib/postgresql/data
+    networks:
+      
       - "55433:5432"
     volumes:
       - ./volumes/auth-db/data:/var/lib/postgresql/data
