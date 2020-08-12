@@ -1,13 +1,12 @@
-import api from '../../api/globe'
+import api from '../../api/materials'
 
 const namespaced = true
 
 const state = {
-  cities: [],
+  materialsWithCategory: [],
 }
 
 const getters = {
-  cities: (state) => state.cities,
 }
 
 const mutations = {
@@ -20,10 +19,10 @@ const mutations = {
 }
 
 const actions = {
-  async getCities({ commit }) {
-    const cities = await api.getCities()
-    commit('set', { type: 'cities', value: cities.data })
-    return cities
+  async getMaterialsWithCategory({ commit }) {
+    const materials = await api.getMaterialsWithCategory()
+    commit('set', { type: 'materialsWithCategory', value: materials.data })
+    return materials
   }
 }
 

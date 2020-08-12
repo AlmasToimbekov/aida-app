@@ -7,27 +7,15 @@ v-row
       :src="item.src"
       reverse-transition="fade-transition"
       transition="fade-transition")
-  home-card(
-    to="/equipment"
-    title="СПЕЦТЕХНИКА"
-    subtitle="Аренда спецтехники для строительства и ремонта"
-    icon="construction"
-    icon-color="amber accent-4")
-  home-card(
-    to="/materials"
-    title="МАТЕРИАЛЫ С ДОСТАВКОЙ"
-    subtitle="Продажа строительных материалов"
-    icon="local_shipping"
-    icon-color="orange accent-3")
+  v-col(cols="12")
+    v-card
+      v-card-title {{ title }}
+      v-card-text {{ msg }}
+
 </template>
 
 <script>
-import HomeCard from "../components/HomeCard";
 export default {
-  components: {
-    HomeCard
-  },
-
   data: () => ({
     items: [
       {
@@ -38,7 +26,9 @@ export default {
         src:
           "https://coronamachinery.com/wp-content/uploads/2017/08/slide_construcao_1b.jpg"
       }
-    ]
-  })
+    ],
+    title: 'Поддержка',
+    msg: 'Если у Вас возникли проблемы с использованием этого Приложения, вы можете связаться по телефону +7-707-367-52-25, либо по eMail: atoimbekov@gmail.com',
+  }),
 };
 </script>

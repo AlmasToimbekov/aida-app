@@ -1,5 +1,7 @@
 import api from '../../api/equipment'
 
+const namespaced = true
+
 const state = {
   equipment: [],
 }
@@ -26,6 +28,7 @@ const actions = {
 }
 
 export default {
+  namespaced,
   state,
   getters,
   actions,
