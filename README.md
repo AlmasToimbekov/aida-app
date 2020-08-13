@@ -1,24 +1,10 @@
 # aida
 
 ## Project setup
-```
-npm install
-```
+Just run docker-compose
 
-### Compiles and hot-reloads for development
+After it's built and started open a new terminal window in the root directory and do:
 ```
-npm run serve
+docker cp dump.sql postgres-db:/tmp
+docker exec -i postgres-db psql --username postgres  postgres < ./dump.sql
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

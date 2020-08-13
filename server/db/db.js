@@ -4,14 +4,14 @@ const options = {
     promiseLib: promise
 }
 
-const POSTGRES_USER = process.env.POSTGRES_USER
-const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD
-const POSTGRES_HOST = process.env.POSTGRES_HOST
-const POSTGRES_PORT = process.env.POSTGRES_PORT
-const POSTGRES_DBNAME = process.env.POSTGRES_DBNAME
+const PG_USER = process.env.PG_USER
+const PG_PASSWORD = process.env.PG_PASSWORD
+const PG_HOST = process.env.PG_HOST
+const PG_PORT = process.env.PG_PORT
+const PG_DB = process.env.PG_DB
 
 const pgp = require('pg-promise')(options)
-const connectionString = `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DBNAME}`
+const connectionString = `postgres://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}/${PG_DB}`
 const db = pgp(connectionString)
 
 
