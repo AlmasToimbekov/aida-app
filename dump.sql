@@ -16,6 +16,22 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA public;
+
+
+ALTER SCHEMA public OWNER TO postgres;
+
+--
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -97,7 +113,7 @@ ALTER SEQUENCE public.cities_id_seq OWNED BY public.cities.id;
 
 CREATE TABLE public.markers (
     id integer NOT NULL,
-    "user" character varying(50) NOT NULL,
+    user_id character varying(50) NOT NULL,
     coordinates numeric[] NOT NULL,
     product_id integer NOT NULL
 );
@@ -228,8 +244,12 @@ COPY public.cities (id, code, name) FROM stdin;
 -- Data for Name: markers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.markers (id, "user", coordinates, product_id) FROM stdin;
+COPY public.markers (id, user_id, coordinates, product_id) FROM stdin;
 1	test	{51.0966224,71.4027974}	9
+12	test	{51.18030324882981,71.28783672720049}	2
+13	test	{51.19928877595414,71.59270733266925}	4
+14	test	{51.040258507282225,71.49932354360675}	4
+15	test	{51.03073382544421,71.3015696373567}	6
 \.
 
 
@@ -268,7 +288,7 @@ SELECT pg_catalog.setval('public.cities_id_seq', 9, true);
 -- Name: markers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.markers_id_seq', 1, true);
+SELECT pg_catalog.setval('public.markers_id_seq', 15, true);
 
 
 --

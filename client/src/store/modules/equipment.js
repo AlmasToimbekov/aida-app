@@ -4,6 +4,7 @@ const namespaced = true
 
 const state = {
   equipmentCategories: [],
+  equipment: [],
 }
 
 const getters = {
@@ -23,6 +24,11 @@ const actions = {
     const equipmentCategories = await api.getEquipmentCategories()
     commit('set', { type: 'equipmentCategories', value: equipmentCategories.data })
     return equipmentCategories
+  },
+  async getEquipment({ commit }) {
+    const equipment = await api.getEquipment()
+    commit('set', { type: 'equipment', value: equipment.data })
+    return equipment
   }
 }
 

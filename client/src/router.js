@@ -78,6 +78,21 @@ export default new VueRouter({
           path: '/map',
           name: 'map',
           component: Ymap,
+          beforeEnter: (to, from, next) => {
+            (async () => {
+              try {
+                await store.dispatch('markers/getMarkersByCategories')
+                await store.dispatch('materials/getMaterials')
+                await store.dispatch('equipment/getEquipment')
+                if (!store.getters['materials/materialCategories']) await store.dispatch('materials/getMaterialCategories')
+                if (!store.getters['equipment/equipmentCategories']) await store.dispatch('equipment/getEquipmentCategories')
+                next()
+              } catch (error) {
+                console.error(error)
+                next('/home')
+              }
+            })()
+          }
         },
         {
           path: '/about',

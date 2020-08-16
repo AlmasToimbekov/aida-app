@@ -4,6 +4,9 @@ const api = {
   getMaterialCategories() {
     return service.getMaterialCategories()
   },
+  getMaterials() {
+    return service.getMaterials()
+  },
 }
 
 module.exports = api
