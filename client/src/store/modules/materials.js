@@ -3,7 +3,7 @@ import api from '../../api/materials'
 const namespaced = true
 
 const state = {
-  materialsWithCategory: [],
+  materialCategories: [],
 }
 
 const getters = {
@@ -19,9 +19,9 @@ const mutations = {
 }
 
 const actions = {
-  async getMaterialsWithCategory({ commit }) {
-    const materials = await api.getMaterialsWithCategory()
-    commit('set', { type: 'materialsWithCategory', value: materials.data })
+  async getMaterialCategories({ commit }) {
+    const materials = await api.getMaterialCategories()
+    commit('set', { type: 'materialCategories', value: materials.data })
     return materials
   }
 }

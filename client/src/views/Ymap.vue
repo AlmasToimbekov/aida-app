@@ -1,14 +1,19 @@
-<template>
-  <yandex-map
-    class="yandex-map"
-    :coords="[51.1966224, 71.4027974]"
-    :zoom="10"
-    style="width: 500px; height: 500px;"
-    :cluster-options="{
-    1: {clusterDisableClickZoom: true}}"
-  >
-    <ymap-marker :coords="[51.0966224, 71.4027974]" :icon="markerIcon" marker-id="123123" />
-  </yandex-map>
+<template lang="pug">
+  v-container
+    v-row
+      v-col
+        yandex-map(
+          class="yandex-map"
+          :coords="viewCoords"
+          :zoom="10"
+          style="width: auto; min-height: 400px;"
+          :cluster-options="{1: {clusterDisableClickZoom: true}}"
+          @click="addItem"
+        )
+          ymap-marker(v-for="icon in markerIcons" :coords="icon.coordinates" :icon="icon" :marker-id="icon.id")
+    v-row
+      v-col
+        v-select(label='Выбор типа ресурса')
 </template>
 
 <script>
@@ -20,22 +25,34 @@ export default {
   },
 
   data: () => ({
+    viewCoords: [51.1966224, 71.4027974],
     settings: {
       apiKey: "",
       lang: "ru_RU",
       coordorder: "latlong",
       version: "2.1"
     },
+    markerIcons: [],
     markerIcon: {
       layout: 'default#imageWithContent',
-      imageHref: 'https://cdn4.iconfinder.com/data/icons/onstruction-vehicles/64/autocrane_truck_mobile_crane-512.png',
+      imageHref: require('@/static/icons/autocrane.png'),
       imageSize: [43, 43],
       imageOffset: [-20, -35],
       content: 'Автокран',
       contentOffset: [35, 15],
-      contentLayout: '<div style="background: red; width: 70px; color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
+      contentLayout: '<div style="background: red; width: 70px; color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>',
+      coordinates: [51.0966224, 71.4027974],
     },
-  })
+  }),
+
+  methods: {
+    addItem(e) {
+      const coords = e.get('coords')
+      this.markerIcon.coordinates = coords
+      this.markerIcons.push({...this.markerIcon})
+      this.viewCoords = coords
+    }
+  },
 };
 </script>
 

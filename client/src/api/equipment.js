@@ -1,8 +1,8 @@
 import $baseHTTP from './http-common'
 
 const equipmentApi = {
-  getEquipment() {
-    return $baseHTTP.get('/equipment/getEquipment')
+  getEquipmentCategories() {
+    return $baseHTTP.get('/equipment/getEquipmentCategories')
   },
 }
 

@@ -49,7 +49,7 @@ export default new VueRouter({
           beforeEnter: (to, from, next) => {
             (async () => {
               try {
-                await store.dispatch('equipment/getEquipment')
+                await store.dispatch('equipment/getEquipmentCategories')
                 next()
               } catch (error) {
                 console.error(error)
@@ -65,7 +65,7 @@ export default new VueRouter({
           beforeEnter: (to, from, next) => {
             (async () => {
               try {
-                await store.dispatch('materials/getMaterialsWithCategory')
+                await store.dispatch('materials/getMaterialCategories')
                 next()
               } catch (error) {
                 console.error(error)

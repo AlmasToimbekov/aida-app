@@ -1,8 +1,8 @@
 import $baseHTTP from './http-common'
 
 const materialsApi = {
-  getMaterialsWithCategory() {
-    return $baseHTTP.get('/materials/getMaterialsWithCategory')
+  getMaterialCategories() {
+    return $baseHTTP.get('/materials/getMaterialCategories')
   },
 }
 

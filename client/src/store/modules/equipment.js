@@ -3,11 +3,10 @@ import api from '../../api/equipment'
 const namespaced = true
 
 const state = {
-  equipment: [],
+  equipmentCategories: [],
 }
 
 const getters = {
-  equipment: (state) => state.equipment,
 }
 
 const mutations = {
@@ -20,10 +19,10 @@ const mutations = {
 }
 
 const actions = {
-  async getEquipment({ commit }) {
-    const equipment = await api.getEquipment()
-    commit('set', { type: 'equipment', value: equipment.data })
-    return equipment
+  async getEquipmentCategories({ commit }) {
+    const equipmentCategories = await api.getEquipmentCategories()
+    commit('set', { type: 'equipmentCategories', value: equipmentCategories.data })
+    return equipmentCategories
   }
 }
 

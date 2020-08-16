@@ -1,10 +1,10 @@
 const { db } = require('./db')
 
 const api = {
-  async getMaterialCategories() {
+  async getEquipmentCategories() {
     return db.any(`
       SELECT * FROM categories
-      WHERE type = 'materials'
+      WHERE type = 'equipment'
     `)
   }
 }

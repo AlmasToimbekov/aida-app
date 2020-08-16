@@ -21,6 +21,42 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: categories; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.categories (
+    id integer NOT NULL,
+    code character varying(255) NOT NULL,
+    type character varying(20) NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.categories OWNER TO postgres;
+
+--
+-- Name: category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.category_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.category_id_seq OWNER TO postgres;
+
+--
+-- Name: category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.category_id_seq OWNED BY public.categories.id;
+
+
+--
 -- Name: cities; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -56,22 +92,24 @@ ALTER SEQUENCE public.cities_id_seq OWNED BY public.cities.id;
 
 
 --
--- Name: material_categories; Type: TABLE; Schema: public; Owner: postgres
+-- Name: markers; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.material_categories (
+CREATE TABLE public.markers (
     id integer NOT NULL,
-    name character varying(255) NOT NULL
+    "user" character varying(50) NOT NULL,
+    coordinates numeric[] NOT NULL,
+    product_id integer NOT NULL
 );
 
 
-ALTER TABLE public.material_categories OWNER TO postgres;
+ALTER TABLE public.markers OWNER TO postgres;
 
 --
--- Name: material_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: markers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.material_categories_id_seq
+CREATE SEQUENCE public.markers_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -80,33 +118,33 @@ CREATE SEQUENCE public.material_categories_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.material_categories_id_seq OWNER TO postgres;
+ALTER TABLE public.markers_id_seq OWNER TO postgres;
 
 --
--- Name: material_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: markers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.material_categories_id_seq OWNED BY public.material_categories.id;
+ALTER SEQUENCE public.markers_id_seq OWNED BY public.markers.id;
 
 
 --
--- Name: materials; Type: TABLE; Schema: public; Owner: postgres
+-- Name: products; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.materials (
+CREATE TABLE public.products (
     id integer NOT NULL,
     name character varying(255) NOT NULL,
     category_id integer NOT NULL
 );
 
 
-ALTER TABLE public.materials OWNER TO postgres;
+ALTER TABLE public.products OWNER TO postgres;
 
 --
--- Name: materials_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.materials_id_seq
+CREATE SEQUENCE public.products_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -115,13 +153,20 @@ CREATE SEQUENCE public.materials_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.materials_id_seq OWNER TO postgres;
+ALTER TABLE public.products_id_seq OWNER TO postgres;
 
 --
--- Name: materials_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.materials_id_seq OWNED BY public.materials.id;
+ALTER SEQUENCE public.products_id_seq OWNED BY public.products.id;
+
+
+--
+-- Name: categories id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.category_id_seq'::regclass);
 
 
 --
@@ -132,17 +177,34 @@ ALTER TABLE ONLY public.cities ALTER COLUMN id SET DEFAULT nextval('public.citie
 
 
 --
--- Name: material_categories id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: markers id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.material_categories ALTER COLUMN id SET DEFAULT nextval('public.material_categories_id_seq'::regclass);
+ALTER TABLE ONLY public.markers ALTER COLUMN id SET DEFAULT nextval('public.markers_id_seq'::regclass);
 
 
 --
--- Name: materials id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: products id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.materials ALTER COLUMN id SET DEFAULT nextval('public.materials_id_seq'::regclass);
+ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.products_id_seq'::regclass);
+
+
+--
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.categories (id, code, type, name) FROM stdin;
+1	autocrane	equipment	Автокраны
+5	transport	equipment	Грузовые перевозки
+4	loader	equipment	Погузчики
+3	bulldozer	equipment	Бульдозеры
+2	manipulator	equipment	Манипуляторы
+6	isolation	materials	Изоляционные материалы
+7	decoration	materials	Отделочные материалы
+9	steel	materials	Металлы
+8	stone	materials	Каменные материалы
+\.
 
 
 --
@@ -163,31 +225,36 @@ COPY public.cities (id, code, name) FROM stdin;
 
 
 --
--- Data for Name: material_categories; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: markers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.material_categories (id, name) FROM stdin;
-2	Металлы
-3	Изоляционные материалы
-4	Отделочные материалы
-1	Бетоны, растворы, каменные материалы
+COPY public.markers (id, "user", coordinates, product_id) FROM stdin;
+1	test	{51.0966224,71.4027974}	9
 \.
 
 
 --
--- Data for Name: materials; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.materials (id, name, category_id) FROM stdin;
-1	Кирпич силикатный	1
-2	Кирпич керамический	1
-3	Арматура AIII - 12 мм	2
-4	Сетка рабица	2
-5	Технониколь	3
-6	Рубероид	3
-7	Штукатурка	4
-8	Гипс строительный	4
+COPY public.products (id, name, category_id) FROM stdin;
+1	Кирпич силикатный	8
+2	Кирпич керамический	8
+3	Арматура AIII - 12 мм	9
+4	Сетка рабица	9
+5	Технониколь	6
+6	Рубероид	6
+7	Штукатурка	7
+8	Гипс строительный	7
+9	Автокран Галичанин 25 т.	1
 \.
+
+
+--
+-- Name: category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.category_id_seq', 9, true);
 
 
 --
@@ -198,17 +265,25 @@ SELECT pg_catalog.setval('public.cities_id_seq', 9, true);
 
 
 --
--- Name: material_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: markers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.material_categories_id_seq', 4, true);
+SELECT pg_catalog.setval('public.markers_id_seq', 1, true);
 
 
 --
--- Name: materials_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.materials_id_seq', 33, true);
+SELECT pg_catalog.setval('public.products_id_seq', 9, true);
+
+
+--
+-- Name: categories category_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT category_pk PRIMARY KEY (id);
 
 
 --
@@ -220,19 +295,25 @@ ALTER TABLE ONLY public.cities
 
 
 --
--- Name: material_categories material_categories_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: markers markers_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.material_categories
-    ADD CONSTRAINT material_categories_pk PRIMARY KEY (id);
+ALTER TABLE ONLY public.markers
+    ADD CONSTRAINT markers_pk PRIMARY KEY (id);
 
 
 --
--- Name: materials materials_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: categories_code_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.materials
-    ADD CONSTRAINT materials_pk PRIMARY KEY (id);
+CREATE UNIQUE INDEX categories_code_uindex ON public.categories USING btree (code);
+
+
+--
+-- Name: category_id_uindex; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX category_id_uindex ON public.categories USING btree (id);
 
 
 --
@@ -257,39 +338,32 @@ CREATE UNIQUE INDEX cities_name_uindex ON public.cities USING btree (name);
 
 
 --
--- Name: material_categories_id_uindex; Type: INDEX; Schema: public; Owner: postgres
+-- Name: markers_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX material_categories_id_uindex ON public.material_categories USING btree (id);
-
-
---
--- Name: material_categories_name_uindex; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX material_categories_name_uindex ON public.material_categories USING btree (name);
+CREATE UNIQUE INDEX markers_id_uindex ON public.markers USING btree (id);
 
 
 --
--- Name: materials_id_uindex; Type: INDEX; Schema: public; Owner: postgres
+-- Name: products_id_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX materials_id_uindex ON public.materials USING btree (id);
-
-
---
--- Name: materials_name_uindex; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX materials_name_uindex ON public.materials USING btree (name);
+CREATE UNIQUE INDEX products_id_uindex ON public.products USING btree (id);
 
 
 --
--- Name: materials materials_material_categories_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: products_name_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.materials
-    ADD CONSTRAINT materials_material_categories_id_fk FOREIGN KEY (category_id) REFERENCES public.material_categories(id);
+CREATE UNIQUE INDEX products_name_uindex ON public.products USING btree (name);
+
+
+--
+-- Name: markers markers_products_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.markers
+    ADD CONSTRAINT markers_products_id_fk FOREIGN KEY (product_id) REFERENCES public.products(id);
 
 
 --
