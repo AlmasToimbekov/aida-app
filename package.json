@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "start": "cd server && node index.js"
+    "start": "node index.js --prefix './server'"
   }
 }

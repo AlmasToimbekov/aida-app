@@ -63,40 +63,7 @@ services:
       KEYCLOAK_DB: ${KEYCLOAK_DB}
       KEYCLOAK_USER: ${KEYCLOAK_USER}
       KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
-    ports:k:
-    container_name: aida-keycloak
-    image: jboss/keycloak
-    restart: unless-stopped
-    ports: 
-      - "8080:8080"
-    depends_on:
-      - keycloak-pg
-    environment:
-      DB_VENDOR: ${DB_VENDOR}
-      DB_ADDR: ${DB_ADDR}
-      DB_DATABASE: ${DB_DATABASE}
-      DB_USER: ${DB_USER}
-      DB_SCHEMA: ${DB_SCHEMA}
-      DB_PASSWORD: ${DB_PASSWORD}
-      # KEYCLOAK_USER: ${KEYCLOAK_USER}
-      # KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
-    networks:
-      - aida-network
-        # aliases:
-        #   - aida.auth
-  keycloak-pg:
-    container_name: aida-keycloak-pg
-    image: 'postgres:12'
-    environment:
-      KEYCLOAK_DB: ${KEYCLOAK_DB}
-      KEYCLOAK_USER: ${KEYCLOAK_USER}
-      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
     ports:
-      - "55433:5432"
-    volumes:
-      - ./volumes/auth-db/data:/var/lib/postgresql/data
-    networks:
-      
       - "55433:5432"
     volumes:
       - ./volumes/auth-db/data:/var/lib/postgresql/data

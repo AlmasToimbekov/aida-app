@@ -11,7 +11,7 @@ const PG_PORT = process.env.PG_PORT
 const PG_DB = process.env.PG_DB
 
 const pgp = require('pg-promise')(options)
-const connectionString = `postgres://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}/${PG_DB}`
+const connectionString = process.env.DATABASE_URL || `postgres://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}/${PG_DB}`
 const db = pgp(connectionString)
 
 
