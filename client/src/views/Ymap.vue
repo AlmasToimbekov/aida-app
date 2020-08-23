@@ -11,6 +11,8 @@
           @click="addItem"
         )
           ymap-marker(v-for="icon in markerIcons" :coords="icon.coordinates" :icon="icon" :marker-id="icon.id")
+    
+    h3.mt-5 Добавление меток
     v-row
       v-col
         v-select(label='Выбор типа ресурса' v-model='productType' :items='resourceTypes' item-text='name' item-value='code')
@@ -18,6 +20,7 @@
         v-select(label='Материал' v-model='productId' :items='materials' item-text='name' item-value='id')
       v-col(v-if='productType === "equipment"')
         v-select(label='Механизм' v-model='productId' :items='equipment' item-text='name' item-value='id')
+    h3.mt-5 Добавление ресурсов
 </template>
 
 <script>
@@ -53,13 +56,20 @@ export default {
     productId: '',
   }),
 
+  watch: {
+    productId() {
+      this.setSnackbar('Кликните по карте, чтобы добавить свою метку')
+      this.canAddMark = true
+    },
+  },
+
   computed: {
     ...mapState({
       markers: state => state.markers.markersByCategories,
-      materials: state => state.materials.materials,
-      equipment: state => state.equipment.equipment,
-      materialCategories: state => state.materials.materialCategories,
-      equipmentCategories: state => state.equipment.equipmentCategories,
+      materials: state => state.products.materials,
+      equipment: state => state.products.equipment,
+      materialCategories: state => state.products.materialCategories,
+      equipmentCategories: state => state.products.equipmentCategories,
     }),
 
     markerIcons() {
@@ -79,9 +89,10 @@ export default {
   methods: {
     ...mapActions({
       setMarker: 'markers/setMarker',
+      setSnackbar: 'tools/setSnackbar',
     }),
     addItem(e) {
-      if (!this.productId) return
+      if (!this.productId || !this.canAddMark) return
       const coords = e.get('coords')
 
       this.setMarker({
@@ -91,6 +102,7 @@ export default {
           product_id: this.productId,
         }
       })
+      this.canAddMark = false
     }
   },
 };

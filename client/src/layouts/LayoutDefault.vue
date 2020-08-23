@@ -81,13 +81,21 @@ v-container
   v-main
     v-container
       router-view
+      snackbar
+      confirm
+
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import Snackbar from '../components/utils/Snackbar.vue'
+import Confirm from '../components/utils/Confirm.vue'
 
 export default {
-  components: {},
+  components: {
+    Snackbar,
+    Confirm,
+  },
   props: {
     source: String
   },
