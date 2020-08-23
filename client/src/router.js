@@ -6,6 +6,7 @@ import LayoutDefault from './layouts/LayoutDefault'
 import Home from './views/Home'
 import Equipment from './views/Equipment'
 import Materials from './views/Materials'
+import ProductsList from './views/ProductsList'
 import Ymap from './views/Ymap'
 import About from './views/About'
 import Cabinet from './views/Cabinet'
@@ -66,6 +67,22 @@ export default new VueRouter({
             (async () => {
               try {
                 await store.dispatch('products/getMaterialCategories')
+                next()
+              } catch (error) {
+                console.error(error)
+                next('/home')
+              }
+            })()
+          }
+        },
+        {
+          path: '/products/:categoryId',
+          name: 'productsList',
+          component: ProductsList,
+          beforeEnter: (to, from, next) => {
+            (async () => {
+              try {
+                await store.dispatch('products/getProductsByCategory', to.params.categoryId)
                 next()
               } catch (error) {
                 console.error(error)

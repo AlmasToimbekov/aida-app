@@ -14,6 +14,10 @@ const productsApi = {
   getMaterials() {
     return $baseHTTP.get('/materials/getMaterials')
   },
+
+  getProductsByCategory(categoryId) {
+    return $baseHTTP.get(`/products/getProductsByCategory/${categoryId}`)
+  },
 }
 
 export default productsApi

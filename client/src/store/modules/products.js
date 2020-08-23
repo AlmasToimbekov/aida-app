@@ -7,6 +7,7 @@ const state = {
   equipment: [],
   materialCategories: [],
   materials: [],
+  selectedProducts: [],
 }
 
 const getters = {
@@ -42,6 +43,11 @@ const actions = {
     const materials = await api.getMaterials()
     commit('set', { type: 'materials', value: materials.data })
     return materials
+  },
+  async getProductsByCategory({ commit }, categoryId) {
+    const selectedProducts = await api.getProductsByCategory(categoryId)
+    commit('set', { type: 'selectedProducts', value: selectedProducts.data })
+    return selectedProducts
   },
 }
 
