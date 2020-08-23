@@ -1,8 +1,10 @@
-import api from '../../api/materials'
+import api from '../../api/products'
 
 const namespaced = true
 
 const state = {
+  equipmentCategories: [],
+  equipment: [],
   materialCategories: [],
   materials: [],
 }
@@ -20,6 +22,17 @@ const mutations = {
 }
 
 const actions = {
+  async getEquipmentCategories({ commit }) {
+    const equipmentCategories = await api.getEquipmentCategories()
+    commit('set', { type: 'equipmentCategories', value: equipmentCategories.data })
+    return equipmentCategories
+  },
+  async getEquipment({ commit }) {
+    const equipment = await api.getEquipment()
+    commit('set', { type: 'equipment', value: equipment.data })
+    return equipment
+  },
+
   async getMaterialCategories({ commit }) {
     const materials = await api.getMaterialCategories()
     commit('set', { type: 'materialCategories', value: materials.data })
@@ -29,7 +42,7 @@ const actions = {
     const materials = await api.getMaterials()
     commit('set', { type: 'materials', value: materials.data })
     return materials
-  }
+  },
 }
 
 export default {

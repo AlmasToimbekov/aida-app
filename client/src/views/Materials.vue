@@ -18,7 +18,7 @@ export default {
   }),
 
   computed: {
-    ...mapState('materials', {
+    ...mapState('products', {
       materialCategories: state => state.materialCategories,
     })
   },

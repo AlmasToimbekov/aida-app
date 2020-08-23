@@ -49,7 +49,7 @@ export default new VueRouter({
           beforeEnter: (to, from, next) => {
             (async () => {
               try {
-                await store.dispatch('equipment/getEquipmentCategories')
+                await store.dispatch('products/getEquipmentCategories')
                 next()
               } catch (error) {
                 console.error(error)
@@ -65,7 +65,7 @@ export default new VueRouter({
           beforeEnter: (to, from, next) => {
             (async () => {
               try {
-                await store.dispatch('materials/getMaterialCategories')
+                await store.dispatch('products/getMaterialCategories')
                 next()
               } catch (error) {
                 console.error(error)
@@ -82,10 +82,10 @@ export default new VueRouter({
             (async () => {
               try {
                 await store.dispatch('markers/getMarkersByCategories')
-                await store.dispatch('materials/getMaterials')
-                await store.dispatch('equipment/getEquipment')
-                if (!store.getters['materials/materialCategories']) await store.dispatch('materials/getMaterialCategories')
-                if (!store.getters['equipment/equipmentCategories']) await store.dispatch('equipment/getEquipmentCategories')
+                await store.dispatch('products/getMaterials')
+                await store.dispatch('products/getEquipment')
+                if (!store.getters['products/materialCategories']) await store.dispatch('products/getMaterialCategories')
+                if (!store.getters['products/equipmentCategories']) await store.dispatch('products/getEquipmentCategories')
                 next()
               } catch (error) {
                 console.error(error)
