@@ -1,12 +1,6 @@
 <template lang="pug">
 v-row
-  v-carousel(xs-12 height="200" cycle progress)
-    v-carousel-item(
-      v-for="(item, i) in items"
-      :key="i"
-      :src="item.src"
-      reverse-transition="fade-transition"
-      transition="fade-transition")
+  banner
   v-col(cols="12")
     v-card
       v-card-title {{ title }}
@@ -15,7 +9,11 @@ v-row
 </template>
 
 <script>
+import Banner from "../components/MainBanner"
 export default {
+  components: {
+    Banner,
+  },
   data: () => ({
     items: [
       {
