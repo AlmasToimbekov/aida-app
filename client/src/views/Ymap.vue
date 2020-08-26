@@ -12,15 +12,36 @@
         )
           ymap-marker(v-for="icon in markerIcons" :coords="icon.coordinates" :icon="icon" :marker-id="icon.id")
     
-    h3.mt-5 Добавление меток
+    h3.mt-5 Добавление меток/ресурсов
     v-row
-      v-col
+      v-col.col-12(md="6")
         v-select(label='Выбор типа ресурса' v-model='productType' :items='resourceTypes' item-text='name' item-value='code')
-      v-col(v-if='productType === "materials"')
-        v-select(label='Материал' v-model='productId' :items='materials' item-text='name' item-value='id')
-      v-col(v-if='productType === "equipment"')
-        v-select(label='Механизм' v-model='productId' :items='equipment' item-text='name' item-value='id')
-    h3.mt-5 Добавление ресурсов
+      v-col.col-12(md="6")
+        v-select(label='Выбор категории' v-model='selectedCategory' :items='categoryOptions' item-text='name' item-value='id')
+      template
+        v-col.col-12(md="6")
+          v-select(label='Материал/Механизм' v-model='productId' :items='filteredProducts' item-text='name' item-value='id')
+    v-btn(@click="additionDialog = true") Создать новый ресурс
+    v-dialog(v-model="additionDialog" scrollable)
+      v-card
+        v-card-title.pb-0
+          v-row
+            v-col
+              p Создание ресурса
+        v-card-text
+          v-row
+            v-col.col-12(md="6")
+              v-select(label='Выбор типа ресурса' v-model='productType' :items='resourceTypes' item-text='name' item-value='code')
+            v-col.col-12(md="6")
+              v-select(label='Выбор категории' v-model='selectedCategory' :items='categoryOptions' item-text='name' item-value='id')
+            v-col.col-12(md="6")
+              v-text-field(label='Введите название нового ресурса' v-model='newProduct')
+        v-card-actions
+          v-spacer
+          v-btn(color="primary" @click="addNewroduct") Создать
+          v-btn(color="primary" text @click="additionDialog = false") Отмена
+    v-row
+    
 </template>
 
 <script>
@@ -52,8 +73,11 @@ export default {
     },
 
     resourceTypes: [{name: 'Материалы', code: 'materials'}, {name: 'Механизмы', code: 'equipment'}],
+    selectedCategory: null,
     productType: null,
     productId: '',
+    additionDialog: false,
+    newProduct: '',
   }),
 
   watch: {
@@ -83,12 +107,21 @@ export default {
         markerIcons.push(icon)
       })
     return markerIcons
-    }
+    },
+    categoryOptions() {
+      if (!this.productType) return []
+      return this.productType === 'materials' ? this.materialCategories : this.equipmentCategories
+    },
+    filteredProducts() {
+      const type = this.productType === 'materials' ? this.materials : this.equipment
+      return type.filter(item => item.category_id === this.selectedCategory)
+    },
   },
 
   methods: {
     ...mapActions({
       setMarker: 'markers/setMarker',
+      createProduct: 'products/createProduct',
       setSnackbar: 'tools/setSnackbar',
     }),
     addItem(e) {
@@ -103,6 +136,9 @@ export default {
         }
       })
       this.canAddMark = false
+    },
+    addNewroduct() {
+      this.createProduct({name: this.newProduct, category_id: this.selectedCategory})
     }
   },
 };

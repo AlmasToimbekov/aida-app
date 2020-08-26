@@ -44,10 +44,18 @@ const actions = {
     commit('set', { type: 'materials', value: materials.data })
     return materials
   },
+  
   async getProductsByCategory({ commit }, categoryId) {
     const selectedProducts = await api.getProductsByCategory(categoryId)
     commit('set', { type: 'selectedProducts', value: selectedProducts.data })
     return selectedProducts
+  },
+  async createProduct({ dispatch }, productInfo) {
+    const response = await api.createProduct(productInfo)
+    await dispatch('getMaterials')
+    await dispatch('getEquipment')
+    await dispatch('tools/setSnackbar', 'Ресурс успешно добавлен', { root: true })
+    return response
   },
 }
 

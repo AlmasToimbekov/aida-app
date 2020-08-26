@@ -18,6 +18,10 @@ const productsApi = {
   getProductsByCategory(categoryId) {
     return $baseHTTP.get(`/products/getProductsByCategory/${categoryId}`)
   },
+
+  createProduct(productInfo) {
+    return $baseHTTP.post('/products/createProduct/', productInfo)
+  },
 }
 
 export default productsApi
